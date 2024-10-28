@@ -1,4 +1,4 @@
-package org.tutor.botweb.demos;
+package org.tutor.seleniumbot.service;
 
 public interface DemoService {
 

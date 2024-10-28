@@ -1,5 +1,6 @@
 # Bot Web API
 
+## warning `Only local connections are allowed.`
 通过api调用自动化测试服务，这里会有一个问题
 
 ```cmd
@@ -12,3 +13,12 @@ ChromeDriver was started successfully on port 61454.
 指定后会出现 `Only local connections are allowed.` 的警告。
 
 由于目前还没有涉及使用 selenium grip，暂时不做处理。
+
+## For WebDriver
+
+谷歌驱动器有一下链接可下载：
+
+* https://googlechromelabs.github.io/chrome-for-testing/#stable
+
+* https://getwebdriver.com/chromedriver#stable
+

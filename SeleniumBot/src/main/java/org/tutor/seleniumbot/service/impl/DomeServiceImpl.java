@@ -1,13 +1,14 @@
-package org.tutor.botweb.demos;
+package org.tutor.seleniumbot.service.impl;
 
 import org.openqa.selenium.WebDriver;
 import org.springframework.stereotype.Service;
 import org.tutor.seleniumbot.selenium.BotDriver;
+import org.tutor.seleniumbot.service.DemoService;
 
 import java.time.Duration;
 
 @Service
-public class DomeServiceImpl implements DemoService{
+public class DomeServiceImpl implements DemoService {
     @Override
     public String openBing() {
         BotDriver.initDriver();
