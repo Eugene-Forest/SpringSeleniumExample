@@ -1,5 +1,6 @@
 # Selenium Bot
 
+-[ ] 自动化测试核心模块
 
 ## Q: 如果此模块存在 入口启动类，那么启动 WebBot 就会出现 service 包的 Bean 重复创建的问题？这是为什么？
 

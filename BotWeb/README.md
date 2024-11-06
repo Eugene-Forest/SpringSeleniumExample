@@ -1,5 +1,10 @@
 # Bot Web API
 
+- [x] 启动模块。
+- [ ] Slf4j 日志 配置
+- [ ] 多用户情况下的日志
+- [ ] 事务
+
 ## warning `Only local connections are allowed.`
 通过api调用自动化测试服务，这里会有一个问题
 
