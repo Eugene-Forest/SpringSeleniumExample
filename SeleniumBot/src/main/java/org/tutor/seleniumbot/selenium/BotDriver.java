@@ -1,6 +1,10 @@
 package org.tutor.seleniumbot.selenium;
 
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.logging.LogEntry;
+
+import java.util.List;
 
 /**
  * 自动测试驱动器
@@ -25,7 +29,15 @@ public class BotDriver {
      * 谷歌浏览器驱动器
      * @return driver
      */
-    public static WebDriver getDriver(){
+    public static ChromeDriver getDriver(){
         return seleniumBot.driver;
+    }
+
+    public static List<LogEntry> logEntryList(){
+        return seleniumBot.driverLogEntries;
+    }
+
+    public static List<LogEntry> browerLogEntryList(){
+        return seleniumBot.browserLogEntries;
     }
 }

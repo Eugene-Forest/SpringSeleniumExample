@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.tutor.botweb.demos.DemoControl;
+import org.tutor.seleniumbot.service.DemoService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -27,4 +28,11 @@ class BotWebApplicationTests {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
+    @Autowired
+    DemoService demoService;
+
+    @Test
+    void contextLoads2() {
+        demoService.computeTime4RequestUrl();
+    }
 }
