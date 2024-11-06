@@ -17,4 +17,9 @@ public class DemoControl {
     public String getMessage(){
         return domeService.openBing();
     }
+
+    @RequestMapping("/hello")
+    public String getHelloWorld(){
+        return "helloworld";
+    }
 }
