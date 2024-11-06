@@ -28,6 +28,8 @@
     <modules>
         <module>SeleniumBot</module>
         <module>BotWeb</module>
+        <module>BotAdapter</module>
+        <module>BotSign</module>
     </modules>
     <dependencies>
         <dependency>
