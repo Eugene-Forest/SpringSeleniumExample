@@ -2,3 +2,7 @@
 server:
   port: 8080
 
+
+logging:
+  level:
+    org.tutor: debug
