@@ -5,4 +5,5 @@ server:
 
 logging:
   level:
-    org.tutor: debug
+#    指定 tutor 包的日志级别，小于的不打印
+    org.tutor: warn

@@ -23,6 +23,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <spring-boot.version>2.7.18</spring-boot.version>
         <selenium-java.version>4.26.0</selenium-java.version>
+        <lombok.version>1.18.30</lombok.version>
     </properties>
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
@@ -49,6 +50,12 @@
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
             <version>${selenium-java.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
         </dependency>
         <!--   修复漏洞 start     -->
         <dependency>
