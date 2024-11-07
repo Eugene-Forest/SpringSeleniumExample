@@ -24,6 +24,8 @@
         <spring-boot.version>2.7.18</spring-boot.version>
         <selenium-java.version>4.26.0</selenium-java.version>
         <lombok.version>1.18.30</lombok.version>
+        <connecter-mysql.version>8.0.33</connecter-mysql.version>
+        <spring-mybatis.version>2.2.2</spring-mybatis.version>
     </properties>
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
@@ -56,6 +58,25 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
+        </dependency>
+        <!-- spring boot 集成 jdbc 依赖包 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jdbc</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
+        <!-- mysql 驱动 -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${connecter-mysql.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- Spring boot mybatis 集成 -->
+        <dependency>
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${spring-mybatis.version}</version>
         </dependency>
         <!--   修复漏洞 start     -->
         <dependency>

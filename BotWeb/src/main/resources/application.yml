@@ -7,3 +7,11 @@ logging:
   level:
 #    指定 tutor 包的日志级别，小于的不打印
     org.tutor: warn
+spring:
+  profiles:
+    active: private
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
+#    username: tutor
+#    password: 666
