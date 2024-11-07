@@ -7,11 +7,12 @@ logging:
   level:
 #    指定 tutor 包的日志级别，小于的不打印
     org.tutor: warn
+
+# profiles.active 指定其他项目或者自身项目下的 yml 配置
 spring:
   profiles:
-    active: private
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
-#    username: tutor
-#    password: 666
+    active: common,private
+
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml

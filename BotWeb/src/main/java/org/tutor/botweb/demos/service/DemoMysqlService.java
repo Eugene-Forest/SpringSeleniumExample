@@ -1,6 +1,6 @@
-package org.tutor.common.demos.service;
+package org.tutor.botweb.demos.service;
 
-import org.tutor.common.demos.model.Depart;
+import org.tutor.botweb.demos.model.Depart;
 
 import java.util.List;
 

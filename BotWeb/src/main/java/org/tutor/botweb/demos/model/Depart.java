@@ -1,4 +1,4 @@
-package org.tutor.common.demos.model;
+package org.tutor.botweb.demos.model;
 
 import lombok.Data;
 
