@@ -6,4 +6,20 @@
     <select id="queryDepart" resultType="org.tutor.botweb.demos.model.Depart">
         select * from departments;
     </select>
+    <select id="queryDemoUser" resultType="org.tutor.botweb.demos.model.DemoUser">
+        select * from user;
+    </select>
+    <insert id="insertDemoUser" useGeneratedKeys="true" keyProperty="id">
+        insert into user (user,password)
+        values (#{user},#{password});
+    </insert>
+    <update id="updateDemoUser" >
+        update user set
+            user = #{user},
+            password = #{password}
+        where id = #{id};
+    </update>
+    <delete id="deleteDemoUser" >
+        delete from user where id = #{id};
+    </delete>
 </mapper>

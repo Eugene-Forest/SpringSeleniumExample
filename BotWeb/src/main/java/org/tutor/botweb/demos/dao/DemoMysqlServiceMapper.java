@@ -1,6 +1,7 @@
 package org.tutor.botweb.demos.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 
 import java.util.List;
@@ -14,4 +15,12 @@ import java.util.List;
 public interface DemoMysqlServiceMapper {
 
     List<Depart> queryDepart();
+
+    List<DemoUser> queryDemoUser();
+
+    boolean insertDemoUser(DemoUser demoUser);
+
+    boolean updateDemoUser(DemoUser demoUser);
+
+    boolean deleteDemoUser(Integer id);
 }

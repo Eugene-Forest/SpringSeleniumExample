@@ -1,5 +1,6 @@
 package org.tutor.botweb.demos.service;
 
+import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 
 import java.util.List;
@@ -11,4 +12,12 @@ import java.util.List;
  */
 public interface DemoMysqlService {
     List<Depart> getDepartTable();
+
+    boolean insertDemoUser(DemoUser user);
+
+    boolean updateDemoUser(DemoUser user);
+
+    boolean deleteDemoUser(Integer userId);
+
+    List<DemoUser> getDemoUserTable();
 }
