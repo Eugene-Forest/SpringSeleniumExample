@@ -66,10 +66,13 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
             if(myDeposit < 0) {
                 throw new Exception("余额不足");
             }
-            return demoMysqlServiceMapper.updateDemoUserDeposit(userId,myDeposit);
+            boolean status = updateDemoUserDeposit(userId, myDeposit);
+            if(userId == 3){
+                throw new Exception("userId is 3, rollback.");
+            }
+            return status;
         }catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            throw new RuntimeException(e);
         }
     }
 
