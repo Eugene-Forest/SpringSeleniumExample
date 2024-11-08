@@ -23,4 +23,8 @@ public interface DemoMysqlServiceMapper {
     boolean updateDemoUser(DemoUser demoUser);
 
     boolean deleteDemoUser(Integer id);
+
+    boolean updateDemoUserDeposit(Integer id, Integer amount);
+
+    Integer getDemoUserDeposit(Integer id);
 }

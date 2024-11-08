@@ -41,4 +41,24 @@ public class DemoSQLControl {
 
     @RequestMapping("/deleteUser")
     public boolean deleteUser(int id){return demoMysqlService.deleteDemoUser(id);}
+
+    @RequestMapping("/updateDeposit")
+    public boolean updateUserDeposit(int id, int amount){
+        return demoMysqlService.updateDemoUserDeposit(id,amount);
+    }
+
+    @RequestMapping("/getDeposit")
+    public Integer getUserDeposit(int id){
+        return demoMysqlService.getDemoUserDeposit(id);
+    }
+
+    @RequestMapping("/getMoney")
+    public boolean getMoneyFromDeposit(int id, int amount){
+        return demoMysqlService.getMoneyFromDeposit(id,amount);
+    }
+
+    @RequestMapping("/addMoney")
+    public boolean addMoneyFromDeposit(int id, int amount){
+        return demoMysqlService.addMoneyToDeposit(id,amount);
+    }
 }

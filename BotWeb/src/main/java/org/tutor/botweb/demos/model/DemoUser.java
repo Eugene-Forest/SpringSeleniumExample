@@ -13,4 +13,5 @@ public class DemoUser {
     private String user;
     private String password;
     private Integer id;
+    private Integer deposit;
 }

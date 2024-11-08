@@ -20,4 +20,12 @@ public interface DemoMysqlService {
     boolean deleteDemoUser(Integer userId);
 
     List<DemoUser> getDemoUserTable();
+
+    Integer getDemoUserDeposit(Integer userId);
+
+    boolean updateDemoUserDeposit(Integer userId, Integer amount);
+
+    boolean getMoneyFromDeposit(Integer userId, Integer amount);
+
+    boolean addMoneyToDeposit(Integer userId, Integer amount);
 }

@@ -22,4 +22,12 @@
     <delete id="deleteDemoUser" >
         delete from user where id = #{id};
     </delete>
+    <update id="updateDemoUserDeposit">
+        update user set
+            deposit = #{amount}
+        where id = #{id};
+    </update>
+    <select id="getDemoUserDeposit" resultType="int">
+        select deposit from user where id = #{id};
+    </select>
 </mapper>

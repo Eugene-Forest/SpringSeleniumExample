@@ -2,6 +2,7 @@ package org.tutor.botweb.demos.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.tutor.botweb.demos.dao.DemoMysqlServiceMapper;
 import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
@@ -44,5 +45,38 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
     @Override
     public List<DemoUser> getDemoUserTable() {
         return  demoMysqlServiceMapper.queryDemoUser();
+    }
+
+    @Override
+    public Integer getDemoUserDeposit(Integer userId) {
+        return demoMysqlServiceMapper.getDemoUserDeposit(userId);
+    }
+
+    @Override
+    public boolean updateDemoUserDeposit(Integer userId, Integer amount) {
+        return demoMysqlServiceMapper.updateDemoUserDeposit(userId,amount);
+    }
+
+    @Transactional
+    @Override
+    public boolean getMoneyFromDeposit(Integer userId, Integer amount) {
+        try {
+            Integer myDeposit = getDemoUserDeposit(userId);
+            myDeposit -= amount;
+            if(myDeposit < 0) {
+                throw new Exception("余额不足");
+            }
+            return demoMysqlServiceMapper.updateDemoUserDeposit(userId,myDeposit);
+        }catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean addMoneyToDeposit(Integer userId, Integer amount) {
+        Integer myDeposit = getDemoUserDeposit(userId);
+        myDeposit += amount;
+        return demoMysqlServiceMapper.updateDemoUserDeposit(userId,myDeposit);
     }
 }
