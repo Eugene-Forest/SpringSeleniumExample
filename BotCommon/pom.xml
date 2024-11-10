@@ -48,6 +48,12 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${spring-mybatis.version}</version>
         </dependency>
+        <!-- Quartz 的自动化配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
         <!--   修复漏洞 start     -->
 <!--        <dependency>-->
 <!--            <groupId>ch.qos.logback</groupId>-->
