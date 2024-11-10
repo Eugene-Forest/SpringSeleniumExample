@@ -6,12 +6,12 @@ server:
 logging:
   level:
 #    指定 tutor 包的日志级别，小于的不打印
-    org.tutor: warn
+    org.tutor: info
 
 # profiles.active 指定其他项目或者自身项目下的 yml 配置
 spring:
   profiles:
-    active: common,private
+    active: private
 
 
 mybatis:

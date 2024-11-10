@@ -1,12 +1,18 @@
 package org.tutor.botweb.demos.service.impl;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.tutor.botweb.demos.dao.DemoMysqlServiceMapper;
 import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 import org.tutor.botweb.demos.service.DemoMysqlService;
+import org.tutor.common.unit.TutorTransactionManager;
 
 import java.util.List;
 
@@ -15,11 +21,15 @@ import java.util.List;
  * {@code @date} 2024/11/7
  * {@code @project} TuTorSelenium
  */
+@Slf4j
 @Service
 public class DemoMysqlServiceImpl implements DemoMysqlService {
 
     @Autowired
     private DemoMysqlServiceMapper demoMysqlServiceMapper;
+
+    @Autowired
+    private DataSourceTransactionManager dataSourceTransactionManager;
 
     @Override
     public List<Depart> getDepartTable() {
@@ -39,7 +49,29 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
 
     @Override
     public boolean deleteDemoUser(Integer userId) {
-        return demoMysqlServiceMapper.deleteDemoUser(userId);
+        TransactionStatus transactionStatus = TutorTransactionManager.getTransaction(dataSourceTransactionManager);
+        try {
+
+            int targetDeposit = demoMysqlServiceMapper.getDemoUserDeposit(userId);
+
+            // 故意先删除再检查
+            boolean status = demoMysqlServiceMapper.deleteDemoUser(userId);
+
+            if(targetDeposit != 0){
+                TutorTransactionManager.rollback(transactionStatus, dataSourceTransactionManager);
+                log.warn("账户销毁失败！ 余额：" + targetDeposit);
+                return false;
+            } else {
+                // 提交事务
+                TutorTransactionManager.commit(transactionStatus, dataSourceTransactionManager);
+                log.warn("账户销毁成功！");
+                return status;
+            }
+        }catch (Exception e) {
+            e.printStackTrace();
+            TutorTransactionManager.rollback(transactionStatus, dataSourceTransactionManager);
+        }
+        return false;
     }
 
     @Override
