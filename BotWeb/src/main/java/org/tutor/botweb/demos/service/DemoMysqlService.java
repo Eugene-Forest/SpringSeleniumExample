@@ -4,6 +4,7 @@ import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Eugene-Forest
@@ -11,7 +12,7 @@ import java.util.List;
  * {@code @project} TuTorSelenium
  */
 public interface DemoMysqlService {
-    List<Depart> getDepartTable();
+    Map<String,String> getDepartTable();
 
     boolean insertDemoUser(DemoUser user);
 

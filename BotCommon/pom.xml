@@ -54,6 +54,12 @@
             <artifactId>spring-boot-starter-quartz</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
+        <!-- Redis -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
         <!--   修复漏洞 start     -->
 <!--        <dependency>-->
 <!--            <groupId>ch.qos.logback</groupId>-->

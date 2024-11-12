@@ -36,11 +36,11 @@
             <scope>provided</scope>
         </dependency>
         <!-- Quartz 的自动化配置 -->
-<!--        <dependency>-->
-<!--            <groupId>org.springframework.boot</groupId>-->
-<!--            <artifactId>spring-boot-starter-quartz</artifactId>-->
-<!--            <version>${spring-boot.version}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-quartz</artifactId>
+            <version>${spring-boot.version}</version>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>

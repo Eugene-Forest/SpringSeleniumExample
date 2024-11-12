@@ -12,9 +12,14 @@ import org.tutor.botweb.demos.dao.DemoMysqlServiceMapper;
 import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 import org.tutor.botweb.demos.service.DemoMysqlService;
+import org.tutor.common.unit.TutorRedisUtil;
 import org.tutor.common.unit.TutorTransactionManager;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 /**
  * @author Eugene-Forest
@@ -29,12 +34,38 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
     private DemoMysqlServiceMapper demoMysqlServiceMapper;
 
     @Autowired
+    private TutorRedisUtil tutorRedisUtil;
+
+    @Autowired
     private DataSourceTransactionManager dataSourceTransactionManager;
 
     @Override
-    public List<Depart> getDepartTable() {
+    public Map<String,String> getDepartTable() {
+        String redisKey = "DepartTable";
+        if(tutorRedisUtil.hasKey(redisKey)) {
+            log.warn("Redis Key " + redisKey+ " is exist");
+            return tutorRedisUtil.hGetAll(redisKey);
+        }
         List<Depart> departList = demoMysqlServiceMapper.queryDepart();
-        return departList;
+        int redisDataBaseName = tutorRedisUtil.getDataBase();
+
+        log.warn("Redis DataBase is " + redisDataBaseName);
+        Map<String,String> map = new HashMap<>();
+
+        departList.forEach(depart -> {
+            map.put(depart.getDept_no(), depart.getDept_name());
+//            if(!tutorRedisUtil.hasKey(depart.getDept_no())){
+//                tutorRedisUtil.set(depart.getDept_no(), depart.toString());
+//                tutorRedisUtil.expire(depart.getDept_no(), 60, TimeUnit.SECONDS);
+//                log.warn("Add Redis Key " + depart.getDept_no());
+//            } else {
+//                log.warn("Redis Key " + depart.getDept_no() + " is exist");
+//            }
+        });
+        tutorRedisUtil.hPutAll(redisKey, map);
+        log.warn("Add Redis Key " + redisKey);
+        tutorRedisUtil.expire(redisKey, 1, TimeUnit.MINUTES);
+        return map;
     }
 
     @Override

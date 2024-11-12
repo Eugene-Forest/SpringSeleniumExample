@@ -11,6 +11,7 @@ import org.tutor.botweb.demos.model.Depart;
 import org.tutor.botweb.demos.service.DemoMysqlService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Eugene-Forest
@@ -26,7 +27,7 @@ public class DemoSQLControl {
     private DemoMysqlService demoMysqlService;
 
     @RequestMapping("/depart")
-    public List<Depart> getDepartTable(){
+    public Map<String,String> getDepartTable(){
         return demoMysqlService.getDepartTable();
     }
 
