@@ -1,4 +1,4 @@
-package org.tutor.common.interceptor;
+package org.tutor.botsign.interceptor;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;
