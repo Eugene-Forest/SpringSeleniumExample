@@ -1,11 +1,5 @@
 # Bot Web API
 
-- [x] 启动模块。
-- [x] Slf4j 日志 配置
-- [ ] 多用户情况下的日志
-- [ ] 事务
-- [ ] 多模块的 sql 服务
-
 ## warning `Only local connections are allowed.`
 通过api调用自动化测试服务，这里会有一个问题
 
