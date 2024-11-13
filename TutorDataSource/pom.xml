@@ -11,12 +11,6 @@
         <artifactId>TuTorSelenium</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    <properties>
-        <java.version>11</java.version>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.6.13</spring-boot.version>
-    </properties>
     <dependencies>
         <!-- spring boot 集成 jdbc 依赖包 -->
         <dependency>
@@ -51,7 +45,13 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${spring-mybatis.version}</version>
         </dependency>
-    </dependencies>
 
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <version>${spring-boot.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
 
 </project>
