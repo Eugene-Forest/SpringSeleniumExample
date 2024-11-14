@@ -263,13 +263,48 @@ metrics.exporterPrometheusPort=9898
 > 目前，所有测试环境，如 nacos, seata-server 都是本地服务，所以部分配置可能需要根据实际运行情况进行更改；
 > 例如， 所有更 8848 端口相关的地址，多半是 nacos 服务地址，需要重新指定IP.
 
+* 特别注意 service.vgroupMapping
+  * 此配置文件的 service.vgroupMapping 配置是对应 各自 Spring boot 服务的集群命名
+
 ## 单服务多数据库的事务回滚
 
 查看 `SeataMain` 项目
 
+```http request
+### 成功用例
+POST http://localhost:8081/order/create?
+    userId=1&
+    productId=1&
+    price=2
+
+### 失败用例触发回滚
+POST http://localhost:8081/order/create?
+    userId=1&
+    productId=1&
+    price=22
+
+```
+
 ## 多服务多数据库的事务回滚
 
 查看 `SeataServiceA` `SeataServiceB` `SeataServiceC` 三个项目。
+
+`SeataServiceC` 是主服务。
+
+```http request
+### 成功用例
+POST http://localhost:8085/order/create?
+    userId=1&
+    productId=1&
+    price=2
+
+### 失败用例触发回滚
+POST http://localhost:8085/order/create?
+    userId=1&
+    productId=1&
+    price=22
+
+```
 
 ### 关于 seata-http 和 httpclient
 
