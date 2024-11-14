@@ -30,5 +30,6 @@
         <module>SeataMain</module>
         <module>SeataServiceA</module>
         <module>SeataServiceB</module>
+        <module>SeataServiceC</module>
     </modules>
 </project>
