@@ -9,46 +9,17 @@
     <description>TuTorSelenium</description>
     <!-- 根模块打包类型必须为pom -->
     <packaging>pom</packaging>
-    <!-- parent指明继承关系，给出被继承的父项目的具体信息-->
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.7.18</version>
-        <relativePath/>
-    </parent>
-    <!-- 版本说明：这里统一管理依赖的版本号 -->
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <spring-boot.version>2.7.18</spring-boot.version>
-        <selenium-java.version>4.26.0</selenium-java.version>
-        <lombok.version>1.18.30</lombok.version>
-        <connecter-mysql.version>8.0.33</connecter-mysql.version>
-        <spring-mybatis.version>2.2.2</spring-mybatis.version>
-        <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
-        <seata.verison>2.0.0</seata.verison>
     </properties>
     <!-- 模块说明：这里声明多个子模块 -->
     <modules>
         <module>SeleniumBot</module>
         <module>BotWeb</module>
-        <module>BotSign</module>
         <module>BotCommon</module>
         <module>TutorDataSource</module>
-        <module>TutorConfigService</module>
     </modules>
-    <!--dependencyManagement用来解决子模块在继承了父模块时出现的循环依赖；实现功能就是在我们子项目继承父项目的时候,并不会引入所有的dependency,而是子项目写了哪个就引入哪个。-->
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
   </project>

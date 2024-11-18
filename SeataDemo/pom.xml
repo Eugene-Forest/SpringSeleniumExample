@@ -24,7 +24,7 @@
         <connecter-mysql.version>8.0.33</connecter-mysql.version>
         <spring-mybatis.version>2.2.2</spring-mybatis.version>
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
-        <seata.verison>1.6.1</seata.verison>
+        <seata.verison>2.0.0</seata.verison>
         <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
         <spring-cloud.version>2021.0.5.0</spring-cloud.version>
     </properties>
