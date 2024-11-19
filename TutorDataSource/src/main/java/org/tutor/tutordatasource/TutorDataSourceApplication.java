@@ -2,6 +2,7 @@ package org.tutor.tutordatasource;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author Eugene-Forest
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * {@code @project} TuTorSelenium
  */
 @SpringBootApplication
+@EnableDiscoveryClient
 public class TutorDataSourceApplication {
 
     public static void main(String[] args) {

@@ -37,6 +37,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
+        </dependency>
         <!-- spring boot 集成 jdbc 依赖包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -55,11 +61,11 @@
             <version>${mssql-jdbc.version}</version>
         </dependency>
         <!-- 实现对 dynamic-datasource 的自动化配置 -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-            <version>${dynamic-datasource.version}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.baomidou</groupId>-->
+<!--            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>-->
+<!--            <version>${dynamic-datasource.version}</version>-->
+<!--        </dependency>-->
 
         <!-- 实现对 Seata 的自动化配置 -->
 <!--        <dependency>-->

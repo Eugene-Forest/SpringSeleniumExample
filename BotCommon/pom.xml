@@ -45,7 +45,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-<!--            <optional>true</optional>-->
+            <optional>true</optional>
         </dependency>
         <!-- Quartz 的自动化配置 -->
         <dependency>
