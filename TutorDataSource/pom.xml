@@ -24,24 +24,23 @@
         <spring-mybatis.version>2.2.2</spring-mybatis.version>
         <dynamic-datasource.version>4.3.0</dynamic-datasource.version>
         <seata.verison>2.0.0</seata.verison>
+        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <spring-cloud.version>2021.0.5.0</spring-cloud.version>
     </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- spring boot 集成 jdbc 依赖包 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
         <!-- mysql 驱动 -->
         <dependency>
@@ -49,6 +48,11 @@
             <artifactId>mysql-connector-java</artifactId>
             <version>${connecter-mysql.version}</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.microsoft.sqlserver</groupId>
+            <artifactId>mssql-jdbc</artifactId>
+            <version>${mssql-jdbc.version}</version>
         </dependency>
         <!-- 实现对 dynamic-datasource 的自动化配置 -->
         <dependency>
@@ -69,6 +73,31 @@
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>${spring-mybatis.version}</version>
+        </dependency>
+
+        <!-- Nacos 服务发现 -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+            <version>${spring-cloud-alibaba.version}</version>
+        </dependency>
+        <!-- 服务发现：OpenFeign服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <!-- 服务发现：OpenFeign服务调用 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
+            <version>3.1.5</version>
+        </dependency>
+        <!-- Nacos 配置管理服务-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+            <version>${spring-cloud-alibaba.version}</version>
         </dependency>
     </dependencies>
     <dependencyManagement>

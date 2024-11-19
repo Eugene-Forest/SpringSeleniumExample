@@ -18,11 +18,11 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.tutor</groupId>
-            <artifactId>BotCommon</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.tutor</groupId>-->
+<!--            <artifactId>BotCommon</artifactId>-->
+<!--            <version>0.0.1-SNAPSHOT</version>-->
+<!--        </dependency>-->
         <!-- Nacos 服务发现 -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
