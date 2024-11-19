@@ -28,7 +28,7 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
@@ -58,11 +58,11 @@
         </dependency>
 
         <!-- 实现对 Seata 的自动化配置 -->
-        <dependency>
-            <groupId>io.seata</groupId>
-            <artifactId>seata-spring-boot-starter</artifactId>
-            <version>${seata.verison}</version>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>io.seata</groupId>-->
+<!--            <artifactId>seata-spring-boot-starter</artifactId>-->
+<!--            <version>${seata.verison}</version>-->
+<!--        </dependency>-->
 
         <!-- Spring boot mybatis 集成 -->
         <dependency>

@@ -14,12 +14,5 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
-    <!-- 模块说明：这里声明多个子模块 -->
-    <modules>
-        <module>SeleniumBot</module>
-        <module>BotWeb</module>
-        <module>BotCommon</module>
-        <module>TutorDataSource</module>
-    </modules>
 
   </project>
