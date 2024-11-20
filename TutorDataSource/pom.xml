@@ -60,19 +60,12 @@
             <artifactId>mssql-jdbc</artifactId>
             <version>${mssql-jdbc.version}</version>
         </dependency>
-        <!-- 实现对 dynamic-datasource 的自动化配置 -->
-<!--        <dependency>-->
-<!--            <groupId>com.baomidou</groupId>-->
-<!--            <artifactId>dynamic-datasource-spring-boot-starter</artifactId>-->
-<!--            <version>${dynamic-datasource.version}</version>-->
-<!--        </dependency>-->
 
-        <!-- 实现对 Seata 的自动化配置 -->
-<!--        <dependency>-->
-<!--            <groupId>io.seata</groupId>-->
-<!--            <artifactId>seata-spring-boot-starter</artifactId>-->
-<!--            <version>${seata.verison}</version>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.83</version>
+        </dependency>
 
         <!-- Spring boot mybatis 集成 -->
         <dependency>

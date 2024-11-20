@@ -8,29 +8,29 @@ spring:
     name: tutor_datasource  # 应用名
   profiles:
     active: private
-#  datasource:
-#    dynamic:
-#      primary: order-ds # 设置默认的数据源或者数据源组，默认值即为 master
-#      datasource:
-#        #订单
-#        order-ds:
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
-#          username: tutor
-#          password: 
-#        #账户
-#        account-ds:
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
-#          username: tutor
-#          password: 
-#        #产品
-#        product-ds:
-#          driver-class-name: com.mysql.cj.jdbc.Driver
-#          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
-#          username: tutor
-#          password: 
-#      seata: true
+  datasource:
+    dynamic:
+      primary: order-ds # 设置默认的数据源或者数据源组，默认值即为 master
+      datasource:
+        #订单
+        order-ds:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
+          username: tutor
+          password:
+        #账户
+        account-ds:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
+          username: tutor
+          password:
+        #产品
+        product-ds:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
+          username: tutor
+          password:
+      seata: true
 # Seata 配置项，对应 SeataProperties 类
 seata:
   application-id: ${spring.application.name} # Seata 应用编号，默认为 ${spring.application.name}

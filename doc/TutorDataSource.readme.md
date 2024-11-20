@@ -127,3 +127,106 @@ public class MyApplicationContextAware implements ApplicationContextAware {
 
 ApplicationContextAware 是Spring Boot中一个非常有用的工具，它提供了一种机制，让Bean在运行时与Spring容器进行交互。
 这个接口的实现可以帮助开发者在Bean中执行复杂的操作，同时保持代码的清晰和组织。
+
+
+## ApplicationRunner
+
+ApplicationRunner 是 Spring Boot 2.x 版本中引入的接口，用于在 Spring Boot 应用程序启动完成后，立即执行一些特定的逻辑。
+
+它的设计灵感来源于 CommandLineRunner，后者是 Spring Boot 1.x 版本中用于类似目的的接口。两者的主要区别在于，ApplicationRunner 提供了对应用启动参数的更高级别封装，使开发者可以更方便地处理启动参数。
+
+虽然 ApplicationRunner 和 CommandLineRunner 的目的都是在应用程序启动完成后执行代码，但二者之间的主要区别在于它们对输入参数的处理方式。
+CommandLineRunner 直接接收一个 String[] 数组作为参数，这意味着开发者需要自己解析和处理这些参数。
+而 ApplicationRunner 则接收一个 ApplicationArguments 对象，该对象封装了启动参数，并提供了一些有用的方法来方便地处理这些参数。
+
+> CommandLineRunner 接口的实现
+
+```java
+
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyCommandLineRunner implements CommandLineRunner {
+
+    @Override
+    public void run(String... args) throws Exception {
+        for (String arg : args) {
+            System.out.println("Argument: " + arg);
+        }
+    }
+}
+```
+
+> ApplicationRunner 接口的实现
+
+```java
+
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+@Component
+public class MyApplicationRunner implements ApplicationRunner {
+
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        if (args.containsOption("myOption")) {
+            System.out.println("Option 'myOption' is present.");
+        }
+        for (String nonOptionArg : args.getNonOptionArgs()) {
+            System.out.println("Non-option argument: " + nonOptionArg);
+        }
+    }
+}
+```
+
+### 应用场景
+
+ApplicationRunner 的核心功能是在 Spring Boot 应用程序启动完成后立即执行代码。
+这对于那些需要在应用启动完成后进行额外配置或初始化的场景非常有用。例如，以下是一些常见的使用场景：
+
+* 加载配置数据：在应用启动时，从数据库或文件中加载一些需要在整个应用生命周期内使用的配置信息。
+* 检查系统环境：在应用启动后检查系统环境是否满足运行条件，例如检查某些外部服务是否可用。
+* 启动后台任务：在应用启动后，立即启动某些后台任务，如数据同步、日志清理等。
+
+
+### ApplicationRunner 的实际应用经验
+
+在实际应用中，ApplicationRunner 的使用可能会遇到一些挑战，例如启动顺序、依赖注入等问题。以下是一些最佳实践和经验分享：
+
+* 控制启动顺序：在某些情况下，可能需要确保 ApplicationRunner 在其他初始化代码之后执行。可以使用 `@Order` 注解来控制不同 ApplicationRunner  实现的执行顺序。
+* 避免过度依赖：虽然 ApplicationRunner 非常强大，但不要将所有初始化逻辑都放在其中，这会使得代码难以维护。建议将不同的初始化任务分开处理，并通过合理的架构设计来简化依赖关系。
+* 合理使用日志：在 ApplicationRunner 中执行的任务通常非常重要，因此建议在这些任务中添加详细的日志记录，以便在应用启动时能够清晰地了解各个步骤的执行情况。
+
+## @ConditionalOnMissingBean
+
+在SpringBoot中，@ConditionalOnMissingBean注解是一个条件注解，它确保当Spring容器中不存在某个Bean时，才会创建一个新的Bean。
+这个注解通常用于自动配置类中，以避免Bean的重复注册，确保Spring容器中只有一个特定类型的Bean实例。
+
+### 应用场景
+
+@ConditionalOnMissingBean注解通常用于以下场景：
+
+* 当你有一个接口和多个实现类时，如果你只希望有一个实现类被Spring容器管理，可以在其他实现类上使用@ConditionalOnMissingBean注解。
+
+* 在自动配置类中，当你提供一个默认的Bean实现，但允许用户根据业务需求自定义自己的Bean时，可以在默认实现上添加@ConditionalOnMissingBean注解。这样，如果用户定义了自己的Bean，Spring容器将不会加载默认的Bean实现。
+
+使用@ConditionalOnMissingBean注解时需要注意以下几点：
+
+* 应该只在自动配置类中使用此注解。虽然在其他类中使用也不会报错，但不推荐这样做。
+
+* 注解仅能匹配当前应用上下文中已经管理的Bean定义。
+
+* 如果候选Bean是由其他配置类创建的，需要使用@AutoConfigureBefore或@AutoConfigureOrder注解来控制配置类的加载顺序，确保@ConditionalOnMissingBean注解在其后运行。
+
+> 扩展 ： 自动配置类
+> //TODO
+> 
+
+
+## AbstractRoutingDataSource
+
+AbstractRoutingDataSource 是Spring框架提供的一个抽象类，它允许开发者实现动态数据源切换，特别适用于多租户系统中，每个租户拥有自己的数据库实例。
+这个类的核心是 determineCurrentLookupKey() 方法，它决定了当前操作应该使用哪个数据源。
+

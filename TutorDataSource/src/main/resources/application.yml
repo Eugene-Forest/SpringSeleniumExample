@@ -13,3 +13,8 @@ spring:
 #    url: jdbc:mysql://localhost:3306/Tutor_Ali?serverTimezone=UTC&characterEncoding=utf8
 #    username: tutor
 #    password: password
+
+tutordatasource:
+  url: ""
+  fileName: "datasourceset.json"
+  model: 0 # 0 :file

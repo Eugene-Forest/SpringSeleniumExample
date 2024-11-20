@@ -6,7 +6,8 @@
           "DBServer": "192.168.8.128",
           "DBName": "Dev_DBnName",
           "DBUser": "db_user_name",
-          "DBPassword": "db_user_password"
+          "DBPassword": "db_user_password",
+          "DBType": 0
         }
       ],
       "MasterName": "PLM"
