@@ -8,6 +8,10 @@
     <name>TuTorSelenium</name>
     <description>TuTorSelenium</description>
 
+    <modules>
+
+    </modules>
+
     <!-- 根模块打包类型必须为pom -->
     <packaging>pom</packaging>
     <properties>
