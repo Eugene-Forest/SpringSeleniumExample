@@ -54,29 +54,36 @@
             <version>${spring-mybatis.version}</version>
         </dependency>
 
-        <!-- Nacos 服务发现 -->
+<!--        &lt;!&ndash; Nacos 服务发现 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
+<!--            <version>${spring-cloud-alibaba.version}</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 服务发现：OpenFeign服务调用 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-openfeign</artifactId>-->
+<!--            <version>3.1.5</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; 服务发现：OpenFeign服务调用 &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-loadbalancer</artifactId>-->
+<!--            <version>3.1.5</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; Nacos 配置管理服务&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.alibaba.cloud</groupId>-->
+<!--            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>-->
+<!--            <version>${spring-cloud-alibaba.version}</version>-->
+<!--        </dependency>-->
+
         <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <version>${spring-cloud-alibaba.version}</version>
-        </dependency>
-        <!-- 服务发现：OpenFeign服务调用 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-openfeign</artifactId>
-            <version>3.1.5</version>
-        </dependency>
-        <!-- 服务发现：OpenFeign服务调用 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-loadbalancer</artifactId>
-            <version>3.1.5</version>
-        </dependency>
-        <!-- Nacos 配置管理服务-->
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
-            <version>${spring-cloud-alibaba.version}</version>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 
