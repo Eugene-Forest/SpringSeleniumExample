@@ -3,6 +3,8 @@ package org.tutor.sign.units;
 import java.io.*;
 
 /**
+ * 读取文件工具类
+ *
  * @author Eugene-Forest
  * {@code @date} 2024/11/27
  */
@@ -13,7 +15,7 @@ public class FileUnits {
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
             String line = br.readLine();
-            while (line!=null){
+            while (line != null) {
                 text.append(line);
                 line = br.readLine();
             }

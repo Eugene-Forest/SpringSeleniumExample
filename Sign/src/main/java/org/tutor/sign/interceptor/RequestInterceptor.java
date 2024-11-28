@@ -1,6 +1,7 @@
-package org.tutor.common.interceptor;
+package org.tutor.sign.interceptor;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,8 +16,9 @@ import java.util.Map;
  * {@code @date} 2024/11/6
  * {@code @project} TuTorSelenium
  */
-@Slf4j
 public class RequestInterceptor implements HandlerInterceptor {
+
+    private final Logger log = LoggerFactory.getLogger(RequestInterceptor.class);
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

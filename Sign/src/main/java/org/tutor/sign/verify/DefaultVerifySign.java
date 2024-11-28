@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 public class DefaultVerifySign {
 
     public static boolean verifySimple(String app, String dateTime, String sign){
-
+        return false;
     }
 
     public static AccountSignature verify(HttpServletRequest request) {
