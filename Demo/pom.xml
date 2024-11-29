@@ -5,6 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.tutor</groupId>
     <artifactId>Demo</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
