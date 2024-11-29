@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.tutor.datasourceset.dto.DataSourceDto;
 import org.tutor.datasourceset.service.DataSourceService;
+import org.tutor.sign.anno.RasCheck;
 
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class DataSourceServiceController {
     @Autowired
     private DataSourceService dataSourceService;
 
+    @RasCheck
     @GetMapping("/getDataSourceSets")
     public List<DataSourceDto> getDataSourceSets(){
         return dataSourceService.getDataSources();

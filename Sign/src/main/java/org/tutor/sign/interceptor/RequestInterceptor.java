@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
+import org.tutor.sign.anno.RasCheck;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,12 @@ public class RequestInterceptor implements HandlerInterceptor {
         log.warn("拦截处理URL:" + request.getRequestURL().toString());
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
+            if(handlerMethod.hasMethodAnnotation(RasCheck.class)){
+                //需要签名校验
+                log.debug("签名校验[{}]请求。", handlerMethod.getMethod().getName());
+            } else{
+                log.debug("不需要签名校验[{}]请求。", handlerMethod.getMethod().getName());
+            }
         }
         return true; // 返回true继续执行，返回false中断执行
     }

@@ -33,3 +33,5 @@ build/
 .vscode/
 application-private.yml
 datasourceset.json
+tutor-datasource-service.public.cer
+tutor-datasource-service.private.pfx

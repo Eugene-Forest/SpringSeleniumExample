@@ -12,7 +12,7 @@
     </parent>
 
     <artifactId>TutorDataSourceSetService</artifactId>
-
+    <version>1.0.0</version>
     <properties>
         <java.version>11</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,6 +84,11 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.tutor</groupId>
+            <artifactId>Sign</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 

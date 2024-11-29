@@ -11,8 +11,11 @@ import java.util.Base64;
  * {@code @date} 2024/11/27
  */
 public class SignKeyUnits {
+
     public static final String RSA = "RSA";
-    public static final String DSA = "DSA";
+
+//    RSA 算法的执行速度较慢，尤其是对于大型密钥和数据。
+//    因此，在实际应用中，通常使用 RSA 算法来加密对称密钥（如 AES），然后使用对称加密算法加密实际的数据，以提高效率。
 
     public static SignKey createSignKey(String algorithm, int keySize){
         try {
@@ -44,12 +47,16 @@ public class SignKeyUnits {
         return createSignKey(RSA, 1024);
     }
 
-    public static SignKey createSignKeyByDSA(){
-        return createSignKey(DSA, 1024);
-    }
 
     public static boolean verify(String data, String sign, RSAPublicKey publicKey){
         byte[] keyBytes = publicKey.getEncoded();
         return false;
+    }
+
+    /**
+     *  RSA 公匙加密
+     */
+    public static void encode(){
+
     }
 }

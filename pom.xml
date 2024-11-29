@@ -10,7 +10,6 @@
 
     <modules>
 
-        <module>Sign</module>
     </modules>
 
     <!-- 根模块打包类型必须为pom -->
