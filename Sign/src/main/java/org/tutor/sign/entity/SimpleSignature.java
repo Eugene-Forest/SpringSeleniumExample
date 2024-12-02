@@ -7,18 +7,18 @@ package org.tutor.sign.entity;
  */
 public class SimpleSignature {
     /** 签名 */
-    private String signature;
+    private String sign;
     /** 时间戳 */
     private String dateTime;
 
     private boolean isVerify;
 
-    public String getSignature() {
-        return signature;
+    public String getSign() {
+        return sign;
     }
 
-    public void setSignature(String signature) {
-        this.signature = signature;
+    public void setSign(String sign) {
+        this.sign = sign;
     }
 
     public String getDateTime() {

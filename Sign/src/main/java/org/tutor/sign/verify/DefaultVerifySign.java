@@ -2,6 +2,7 @@ package org.tutor.sign.verify;
 
 import org.tutor.sign.common.HttpRequestHelper;
 import org.tutor.sign.entity.AccountSignature;
+import org.tutor.sign.entity.SimpleSignature;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,8 +16,18 @@ public class DefaultVerifySign {
         return false;
     }
 
-    public static AccountSignature verify(HttpServletRequest request) {
-        String signature = request.getParameter("sign");
+    public static SimpleSignature defaultVerify(HttpServletRequest request){
+        String sign = request.getParameter("sign");
+        String dataTime = request.getParameter("dataTime");
+        SimpleSignature signature = new SimpleSignature();
+        signature.setSign(sign);
+        signature.setDateTime(dataTime);
+        signature.setVerify(true);
+        return signature;
+    }
+
+    public static AccountSignature accountVerify(HttpServletRequest request) {
+        String sign = request.getParameter("sign");
         String app = request.getParameter("app");
         String dataTime = request.getParameter("dataTime");
         String bodyString = HttpRequestHelper.getBodyString(request);
@@ -32,7 +43,7 @@ public class DefaultVerifySign {
         if (user == null || user.isEmpty()) {
             user = "default";
         }
-        if (signature == null || dataTime == null) {
+        if (sign == null || dataTime == null) {
             AccountSignature accountSignature = new AccountSignature();
             accountSignature.setVerify(false);
             return accountSignature;
@@ -41,7 +52,7 @@ public class DefaultVerifySign {
         AccountSignature accountSignature = new AccountSignature();
         accountSignature.setVerify(true);
         accountSignature.setDbName(dbName);
-        accountSignature.setSignature(signature);
+        accountSignature.setSign(sign);
         accountSignature.setDateTime(dataTime);
         accountSignature.setBodyString(bodyString);
         accountSignature.setUser(user);
