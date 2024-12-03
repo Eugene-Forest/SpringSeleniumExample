@@ -6,6 +6,7 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import org.tutor.sign.anno.RasCheck;
+import org.tutor.sign.verify.DefaultVerifySign;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,8 @@ public class RequestInterceptor implements HandlerInterceptor {
         log.warn("拦截处理URL:" + request.getRequestURL().toString());
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            if(handlerMethod.hasMethodAnnotation(RasCheck.class)){
+            RasCheck rasCheck = DefaultVerifySign.getRasCheckAno(handlerMethod);
+            if(rasCheck != null){
                 //需要签名校验
                 log.debug("签名校验[{}]请求。", handlerMethod.getMethod().getName());
             } else{

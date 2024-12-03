@@ -1,10 +1,13 @@
 package org.tutor.sign.verify;
 
+import org.springframework.web.method.HandlerMethod;
+import org.tutor.sign.anno.RasCheck;
 import org.tutor.sign.common.HttpRequestHelper;
 import org.tutor.sign.entity.AccountSignature;
 import org.tutor.sign.entity.SimpleSignature;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 
 /**
  * @author Eugene-Forest
@@ -12,7 +15,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DefaultVerifySign {
 
-    public static boolean verifySimple(String app, String dateTime, String sign){
+    public static boolean verifySimple(String dateTime, String sign){
+
         return false;
     }
 
@@ -58,5 +62,15 @@ public class DefaultVerifySign {
         accountSignature.setUser(user);
 
         return accountSignature;
+    }
+
+    public static RasCheck getRasCheckAno(HandlerMethod handlerMethod){
+        Method method = handlerMethod.getMethod();
+        RasCheck rasCheck = method.getAnnotation(RasCheck.class);//方法注解
+        if(rasCheck == null){
+            Class<?> aClass = method.getDeclaringClass();
+            rasCheck = aClass.getAnnotation(RasCheck.class);//类注解
+        }
+        return rasCheck;
     }
 }

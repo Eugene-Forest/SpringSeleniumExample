@@ -54,9 +54,16 @@ public class SignKeyUnits {
     }
 
     /**
-     *  RSA 公匙加密
+     *  RSA 签名
      */
-    public static void encode(){
+    public static void SignRSA(){
+
+    }
+
+    /**
+     * RSA 验签
+     */
+    public static void VerifySingRSA(){
 
     }
 }

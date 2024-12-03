@@ -16,12 +16,12 @@ import java.util.List;
  */
 @RequestMapping("/datasource")
 @RestController
+@RasCheck
 public class DataSourceServiceController {
 
     @Autowired
     private DataSourceService dataSourceService;
 
-    @RasCheck
     @GetMapping("/getDataSourceSets")
     public List<DataSourceDto> getDataSourceSets(){
         return dataSourceService.getDataSources();

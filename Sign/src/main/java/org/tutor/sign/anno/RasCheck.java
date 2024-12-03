@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * {@code @date} 2024/11/27
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.METHOD)
+@Target({ElementType.METHOD, ElementType.TYPE})
 @Documented
 public @interface RasCheck {
 }
