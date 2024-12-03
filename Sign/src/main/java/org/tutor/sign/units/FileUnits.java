@@ -10,7 +10,7 @@ import java.io.*;
  */
 public class FileUnits {
 
-    public static String readTextFile(File file) {
+    public static String readTextFile(File file) throws IOException {
         StringBuilder text = new StringBuilder();
         try {
             BufferedReader br = new BufferedReader(new FileReader(file));
@@ -19,21 +19,22 @@ public class FileUnits {
                 text.append(line);
                 line = br.readLine();
             }
+            br.close();//关闭流
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
         return text.toString();
     }
 
-    public static void writeTextFile(File file, String text) {
+    public static void writeTextFile(File file, String text) throws IOException {
         try {
             FileOutputStream outputStream = new FileOutputStream(file);
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outputStream));
             bw.write(text);
             bw.flush();
-            bw.close();
+            bw.close();//关闭流
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new IOException(e);
         }
     }
 }
