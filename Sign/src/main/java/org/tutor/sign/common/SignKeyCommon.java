@@ -130,7 +130,7 @@ public class SignKeyCommon {
             log.error("密匙对象创建失败。");
             log.error(e.getMessage());
         } catch (IOException e) {
-            log.error("读取私匙文件 {} 出现异常。", publicKeyFilePath);
+            log.error("读取公匙文件 {} 出现异常。", publicKeyFilePath);
             log.error(e.getMessage());
         }
         return null;

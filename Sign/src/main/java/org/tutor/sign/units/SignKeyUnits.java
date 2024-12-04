@@ -1,14 +1,18 @@
 package org.tutor.sign.units;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tutor.sign.common.SignKeyCommon;
 import org.tutor.sign.entity.SignKey;
 
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
 import java.security.interfaces.RSAPublicKey;
-import java.util.Base64;
 
 /**
  * @author Eugene-Forest
@@ -16,7 +20,8 @@ import java.util.Base64;
  */
 public class SignKeyUnits {
 
-    public static final String RSA = "RSA";
+    public static final String Key_Algorithm = "RSA";
+    public static final String Sign_Algorithm = "SHA256withRSA";
 
     private static Logger log = LoggerFactory.getLogger(SignKeyUnits.class);
 
@@ -26,7 +31,6 @@ public class SignKeyUnits {
     public static SignKey createSignKey(String algorithm, int keySize) {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
-            Base64.Encoder encoder = Base64.getEncoder();
             //初始化密匙长度
             keyPairGenerator.initialize(keySize);
             //生成密匙对
@@ -35,8 +39,8 @@ public class SignKeyUnits {
             Key publicKey = keyPair.getPublic();
             //得到密匙
             Key privateKey = keyPair.getPrivate();
-            String privateKeyString = encoder.encodeToString(privateKey.getEncoded());
-            String publicKeyString = encoder.encodeToString(publicKey.getEncoded());
+            String privateKeyString = Base64.encodeBase64String(privateKey.getEncoded());
+            String publicKeyString = Base64.encodeBase64String(publicKey.getEncoded());
             //创建密匙对对象
             SignKey signKey = new SignKey();
             signKey.setPrivateKey(privateKeyString);
@@ -50,7 +54,7 @@ public class SignKeyUnits {
     }
 
     public static SignKey createSignKeyByRSA() {
-        return createSignKey(RSA, 1024);
+        return createSignKey(Key_Algorithm, 1024);
     }
 
     public static boolean verify(String data, String sign, RSAPublicKey publicKey) {
@@ -60,19 +64,20 @@ public class SignKeyUnits {
 
     /**
      * RSA 签名
+     *
      * @param data 被签名数据
      * @return 签名
      */
-    public static String signRSA(String data) {
+    public static String signWithRSA(String data) {
         try {
-            PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", RSA);
-            Signature signature = Signature.getInstance("SHA256WithRSA");
+            PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
+            Signature signature = Signature.getInstance(Sign_Algorithm);
             signature.initSign(privateKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
             byte[] signatureBytes = signature.sign();
-            return Base64.getEncoder().encodeToString(signatureBytes);
+            return Base64.encodeBase64String(signatureBytes);
         } catch (NoSuchAlgorithmException e) {
-            log.error("signRSA 使用了非法加密算法！");
+            log.error("签名方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
             log.error("Invalid key: " + e.getMessage());
         } catch (SignatureException e) {
@@ -88,25 +93,79 @@ public class SignKeyUnits {
      * @param sign 签名
      * @return 验签结果
      */
-    public static boolean verifySingRSA(String data, String sign) {
+    public static boolean verifySignWithRSA(String data, String sign) {
         try {
-            PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", RSA);
+            PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
             if (publicKey == null) {
                 log.warn("Public key is null");
                 return false;
             }
-            Signature signature = Signature.getInstance("SHA256WithRSA");
+            Signature signature = Signature.getInstance(Sign_Algorithm);
             signature.initVerify(publicKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
-            byte[] signBytes = org.apache.tomcat.util.codec.binary.Base64.decodeBase64(sign.getBytes(StandardCharsets.UTF_8));
+            byte[] signBytes = Base64.decodeBase64(sign.getBytes(StandardCharsets.UTF_8));
             return signature.verify(signBytes);
         } catch (NoSuchAlgorithmException e) {
-            log.error("verifySingRSA 使用了非法加密算法！");
+            log.error("验签方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
             log.error("Invalid key: " + e.getMessage());
         } catch (SignatureException e) {
             log.error("Invalid signature: " + e.getMessage());
         }
         return false;
+    }
+
+    /**
+     * RSA 公匙加密
+     *
+     * @param data 明文；数据
+     * @return 密文；加密数据（Base64编码）
+     */
+    public static String encryptWithRSA(String data) {
+        try {
+            PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
+            if (publicKey == null) {
+                log.warn("Public key is null");
+                return null;
+            }
+            Cipher cipher = Cipher.getInstance(Key_Algorithm);
+            cipher.init(Cipher.ENCRYPT_MODE, publicKey);
+            byte[] enBytes = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+            return Base64.encodeBase64String(enBytes);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            log.error("加密方法 使用了非法加密算法！");
+        } catch (InvalidKeyException e) {
+            log.error("Invalid key: " + e.getMessage());
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.error("Invalid : " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * RSA 私匙解密
+     *
+     * @param encryptedData 加密数据(Base64编码)
+     * @return 解密数据
+     */
+    public static String decryptWithRSA(String encryptedData) {
+        try {
+            PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
+            if (privateKey == null) {
+                log.warn("Private key is null");
+                return null;
+            }
+            Cipher cipher = Cipher.getInstance(Key_Algorithm);
+            cipher.init(Cipher.DECRYPT_MODE, privateKey);
+            byte[] enBytes = cipher.doFinal(Base64.decodeBase64(encryptedData));
+            return new String(enBytes, StandardCharsets.UTF_8);
+        } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
+            log.error("解密方法 使用了非法加密算法！");
+        } catch (InvalidKeyException e) {
+            log.error("Invalid key: " + e.getMessage());
+        } catch (IllegalBlockSizeException | BadPaddingException e) {
+            log.error("Invalid : " + e.getMessage());
+        }
+        return null;
     }
 }
