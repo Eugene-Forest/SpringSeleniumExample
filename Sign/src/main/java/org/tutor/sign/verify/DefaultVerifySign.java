@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 
 /**
+ * 网络请求校验类
  * @author Eugene-Forest
  * {@code @date} 2024/11/27
  */

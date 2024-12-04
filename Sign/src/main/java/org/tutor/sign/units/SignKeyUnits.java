@@ -12,9 +12,9 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.nio.charset.StandardCharsets;
 import java.security.*;
-import java.security.interfaces.RSAPublicKey;
 
 /**
+ * 非对称加密算法工具类
  * @author Eugene-Forest
  * {@code @date} 2024/11/27
  */
@@ -32,6 +32,8 @@ public class SignKeyUnits {
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
             //初始化密匙长度
+            // 注意，RSA 密钥长度位数必须是 512 的倍数，最小为 512，密钥长度越长，越安全（难破解），
+            // 但是 密钥的生成、加密、解密都会更加的耗时。一般来说，目前最常见、安全的 RSA 密钥长度为 2048 位。
             keyPairGenerator.initialize(keySize);
             //生成密匙对
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
@@ -57,11 +59,6 @@ public class SignKeyUnits {
         return createSignKey(Key_Algorithm, 1024);
     }
 
-    public static boolean verify(String data, String sign, RSAPublicKey publicKey) {
-        byte[] keyBytes = publicKey.getEncoded();
-        return false;
-    }
-
     /**
      * RSA 签名
      *
@@ -71,6 +68,10 @@ public class SignKeyUnits {
     public static String signWithRSA(String data) {
         try {
             PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
+            if (privateKey == null) {
+                log.warn("sign With RSA - Private key is null");
+                return null;
+            }
             Signature signature = Signature.getInstance(Sign_Algorithm);
             signature.initSign(privateKey);
             signature.update(data.getBytes(StandardCharsets.UTF_8));
@@ -79,9 +80,9 @@ public class SignKeyUnits {
         } catch (NoSuchAlgorithmException e) {
             log.error("签名方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
-            log.error("Invalid key: " + e.getMessage());
+            log.error("sign With RSA - Invalid key: {}", e.getMessage());
         } catch (SignatureException e) {
-            log.error("Invalid signature: " + e.getMessage());
+            log.error("sign With RSA - Invalid signature: {}", e.getMessage());
         }
         return null;
     }
@@ -97,7 +98,7 @@ public class SignKeyUnits {
         try {
             PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
             if (publicKey == null) {
-                log.warn("Public key is null");
+                log.warn("verify Sign With RSA - Public key is null");
                 return false;
             }
             Signature signature = Signature.getInstance(Sign_Algorithm);
@@ -108,9 +109,9 @@ public class SignKeyUnits {
         } catch (NoSuchAlgorithmException e) {
             log.error("验签方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
-            log.error("Invalid key: " + e.getMessage());
+            log.error("verify Sign With RSA - Invalid key: {}", e.getMessage());
         } catch (SignatureException e) {
-            log.error("Invalid signature: " + e.getMessage());
+            log.error("verify Sign With RSA - Invalid signature: {}", e.getMessage());
         }
         return false;
     }
@@ -125,7 +126,7 @@ public class SignKeyUnits {
         try {
             PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
             if (publicKey == null) {
-                log.warn("Public key is null");
+                log.warn("encrypt With RSA - Public key is null");
                 return null;
             }
             Cipher cipher = Cipher.getInstance(Key_Algorithm);
@@ -135,9 +136,9 @@ public class SignKeyUnits {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             log.error("加密方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
-            log.error("Invalid key: " + e.getMessage());
+            log.error("encrypt With RSA - Invalid key: {}", e.getMessage());
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            log.error("Invalid : " + e.getMessage());
+            log.error("encrypt With RSA - Invalid : {}", e.getMessage());
         }
         return null;
     }
@@ -152,7 +153,7 @@ public class SignKeyUnits {
         try {
             PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
             if (privateKey == null) {
-                log.warn("Private key is null");
+                log.warn("decrypt With RSA - Private key is null");
                 return null;
             }
             Cipher cipher = Cipher.getInstance(Key_Algorithm);
@@ -162,9 +163,9 @@ public class SignKeyUnits {
         } catch (NoSuchAlgorithmException | NoSuchPaddingException e) {
             log.error("解密方法 使用了非法加密算法！");
         } catch (InvalidKeyException e) {
-            log.error("Invalid key: " + e.getMessage());
+            log.error("decrypt with RSA - Invalid key: {}", e.getMessage());
         } catch (IllegalBlockSizeException | BadPaddingException e) {
-            log.error("Invalid : " + e.getMessage());
+            log.error("decrypt with RSA - Invalid : {}", e.getMessage());
         }
         return null;
     }

@@ -3,7 +3,7 @@ package org.tutor.sign.units;
 import java.io.*;
 
 /**
- * 读取文件工具类
+ * 文本文件流工具类
  *
  * @author Eugene-Forest
  * {@code @date} 2024/11/27

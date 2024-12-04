@@ -1,5 +1,8 @@
 import org.tutor.sign.common.SignKeyCommon;
+import org.tutor.sign.units.AESTokenUnits;
 import org.tutor.sign.units.SignKeyUnits;
+
+import javax.crypto.SecretKey;
 
 /**
  * 此用例需要Sign项目为Root，才能正常搜索到密匙文件（搜索文件的逻辑是相对目录），主要根据Idea打开的项目的根目录为准
@@ -10,7 +13,8 @@ public class TestSignKeyMain {
     public static void main(String[] args) {
 //        createTestKey();
 //        simpleSign();
-        encryptData();
+//        encryptData();
+        encryptDataAES();
     }
 
     /**
@@ -46,5 +50,15 @@ public class TestSignKeyMain {
         String message = SignKeyUnits.decryptWithRSA(encryptedData);
         System.out.println("解密后数据: " + message);
         System.out.println(data.equals(message));
+    }
+
+    public static void encryptDataAES(){
+        String data = "hello world";
+        String key_AES = AESTokenUnits.generateKey(256);
+        System.out.println("key: " + key_AES);
+        String deData = AESTokenUnits.encrypt(data, key_AES);
+        System.out.println("加密数据: " + deData);
+        String message = AESTokenUnits.decrypt(deData, key_AES);
+        System.out.println("解密数据: " + message);
     }
 }
