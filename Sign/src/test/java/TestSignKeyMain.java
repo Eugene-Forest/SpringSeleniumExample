@@ -54,8 +54,9 @@ public class TestSignKeyMain {
 
     public static void encryptDataAES(){
         String data = "hello world";
-        String key_AES = AESTokenUnits.generateKey(256);
-        System.out.println("key: " + key_AES);
+        String key_AES = AESTokenUnits.generateKey(128);
+        assert key_AES != null;
+        System.out.println("key: " + key_AES + " , " + key_AES.length() + " " + key_AES.getBytes().length);
         String deData = AESTokenUnits.encrypt(data, key_AES);
         System.out.println("加密数据: " + deData);
         String message = AESTokenUnits.decrypt(deData, key_AES);

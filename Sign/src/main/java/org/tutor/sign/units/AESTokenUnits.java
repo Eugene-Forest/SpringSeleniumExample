@@ -12,6 +12,7 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 
@@ -35,9 +36,11 @@ public class AESTokenUnits {
     public static String generateKey(int n) {
         try {
             KeyGenerator keyGenerator = KeyGenerator.getInstance("AES");
-            keyGenerator.init(n);
+            keyGenerator.init(n, new SecureRandom());
             SecretKey secretKey = keyGenerator.generateKey();
-            return Base64.encodeBase64String(secretKey.getEncoded());
+            byte[] keyBytes = secretKey.getEncoded();
+            log.debug("keyBytes length: "+ keyBytes.length);
+            return Base64.encodeBase64String(keyBytes);
         } catch (NoSuchAlgorithmException e) {
             log.error(e.getMessage());
         }
@@ -72,22 +75,25 @@ public class AESTokenUnits {
      */
     public static String encrypt(String sSrc, String key) {
         try {
-            String sKey = Base64.encodeBase64String(key.getBytes(StandardCharsets.UTF_8));
+            String sKey = Base64.encodeBase64String(key.getBytes());
             if (sKey == null) {
                 log.error("encrypt - Key为空null");
                 return null;
             }
-            if (sKey.length() != 16) {
-                log.error("encrypt - Key长度不是16位");
-                return null;
-            }
-            byte[] raw = sKey.getBytes(StandardCharsets.UTF_8);
-            SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+//            if (sKey.length() != 16) {
+//                log.error("encrypt - Key长度不是16位");
+//                return null;
+//            }
+            byte[] raw = sKey.getBytes();
+            log.debug("key length: "+ raw.length);
+//            SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+            SecretKey skeySpec = new SecretKeySpec(raw, 0, raw.length,"AES");
+
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
             byte[] encrypted = cipher.doFinal(sSrc.getBytes(StandardCharsets.UTF_8));
             return Base64.encodeBase64String(encrypted);
-        }catch (Exception e) {
+        } catch (Exception e) {
             log.error(e.getMessage());
             return null;
         }
@@ -103,17 +109,17 @@ public class AESTokenUnits {
      */
     public static String decrypt(String sSrc, String key) {
         try {
-            String sKey = Base64.encodeBase64String(key.getBytes(StandardCharsets.UTF_8));
+            String sKey = Base64.encodeBase64String(key.getBytes());
             if (sKey == null) {
                 log.error("decrypt - Key为空null");
                 return null;
             }
-            if (sKey.length() != 16) {
-                log.error("decrypt - Key长度不是16位");
-                return null;
-            }
-            byte[] raw = sKey.getBytes(StandardCharsets.UTF_8);
-            SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+//            if (sKey.length() != 16) {
+//                log.error("decrypt - Key长度不是16位");
+//                return null;
+//            }
+            byte[] raw = sKey.getBytes();
+            SecretKey skeySpec = new SecretKeySpec(raw, 0, raw.length,"AES");
             Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
             cipher.init(Cipher.DECRYPT_MODE, skeySpec);
             byte[] encrypted1 = Base64.decodeBase64(sSrc.getBytes(StandardCharsets.UTF_8));
