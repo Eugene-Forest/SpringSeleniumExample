@@ -1,8 +1,6 @@
 import org.tutor.sign.common.SignKeyCommon;
-import org.tutor.sign.units.AESTokenUnits;
+import org.tutor.sign.units.AESUnits;
 import org.tutor.sign.units.SignKeyUnits;
-
-import javax.crypto.SecretKey;
 
 /**
  * 此用例需要Sign项目为Root，才能正常搜索到密匙文件（搜索文件的逻辑是相对目录），主要根据Idea打开的项目的根目录为准
@@ -12,9 +10,10 @@ import javax.crypto.SecretKey;
 public class TestSignKeyMain {
     public static void main(String[] args) {
 //        createTestKey();
-//        simpleSign();
+        simpleSign();
 //        encryptData();
-        encryptDataAES();
+//        encryptDataAES();
+        encryptDataAESWithPassword();
     }
 
     /**
@@ -32,7 +31,7 @@ public class TestSignKeyMain {
         String data = "hello world";
         //签名
         String sign = SignKeyUnits.signWithRSA(data);
-
+        System.out.println("签名数据："+ sign);
         //然后根据公匙进行数据的验签
         System.out.println(SignKeyUnits.verifySignWithRSA("hello world!", sign));//false
         System.out.println(SignKeyUnits.verifySignWithRSA("hello world", sign));//true
@@ -54,12 +53,23 @@ public class TestSignKeyMain {
 
     public static void encryptDataAES(){
         String data = "hello world";
-        String key_AES = AESTokenUnits.generateKey(128);
+        String key_AES = AESUnits.generateKey(128);
         assert key_AES != null;
         System.out.println("key: " + key_AES + " , " + key_AES.length() + " " + key_AES.getBytes().length);
-        String deData = AESTokenUnits.encrypt(data, key_AES);
+        String deData = AESUnits.encryptWithByteKey(data, key_AES);
         System.out.println("加密数据: " + deData);
-        String message = AESTokenUnits.decrypt(deData, key_AES);
+        String message = AESUnits.decryptWithByteKey(deData, key_AES);
         System.out.println("解密数据: " + message);
+    }
+
+    public static void encryptDataAESWithPassword(){
+        try {
+            String data = "hello world";
+            String deData = AESUnits.encryptAES(data);
+            String message = AESUnits.decryptAES(deData);
+            System.out.println(message);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
