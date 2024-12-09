@@ -26,7 +26,17 @@
     <dependencies>
         <dependency>
             <groupId>org.tutor</groupId>
+            <artifactId>IO-Tool</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tutor</groupId>
             <artifactId>TutorDataSource</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tutor</groupId>
+            <artifactId>Sign</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
@@ -45,7 +55,7 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-            <optional>true</optional>
+<!--            <optional>true</optional>-->
         </dependency>
         <!-- Quartz 的自动化配置 -->
         <dependency>

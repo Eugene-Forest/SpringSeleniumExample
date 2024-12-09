@@ -4,7 +4,6 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.tutor.sign.entity.SignKey;
-import org.tutor.sign.units.FileUnits;
 import org.tutor.sign.units.SignKeyUnits;
 
 import java.io.File;
@@ -48,8 +47,8 @@ public class SignKeyCommon {
                 return false;
             }
             SignKey signKey = SignKeyUnits.createSignKeyByRSA();
-            FileUnits.writeTextFile(privateKeyFile, signKey.getPrivateKey());
-            FileUnits.writeTextFile(publicKeyFile, signKey.getPublicKey());
+            FileHelper.writeTextFile(privateKeyFile, signKey.getPrivateKey());
+            FileHelper.writeTextFile(publicKeyFile, signKey.getPublicKey());
             return true;
         } catch (IOException e) {
             e.printStackTrace();
@@ -82,7 +81,7 @@ public class SignKeyCommon {
                 return null;
             }
             //读取私匙字符串
-            String privatekeyString = FileUnits.readTextFile(privateKeyFile);
+            String privatekeyString = FileHelper.readTextFile(privateKeyFile);
             //从私匙字符串中获取私匙
             byte[] privateBytes = Base64.decodeBase64(privatekeyString.getBytes(StandardCharsets.UTF_8));
             PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(privateBytes);
@@ -117,7 +116,7 @@ public class SignKeyCommon {
                 return null;
             }
             // 获取公匙字符串
-            String publicKeyString = FileUnits.readTextFile(publicKeyFile);
+            String publicKeyString = FileHelper.readTextFile(publicKeyFile);
             // 通过公匙字符串获取公匙
             byte[] publicKeyBytes = Base64.decodeBase64(publicKeyString.getBytes(StandardCharsets.UTF_8));
             X509EncodedKeySpec keySpec = new X509EncodedKeySpec(publicKeyBytes);

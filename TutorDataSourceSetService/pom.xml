@@ -87,7 +87,7 @@
         </dependency>
         <dependency>
             <groupId>org.tutor</groupId>
-            <artifactId>Sign</artifactId>
+            <artifactId>BotCommon</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

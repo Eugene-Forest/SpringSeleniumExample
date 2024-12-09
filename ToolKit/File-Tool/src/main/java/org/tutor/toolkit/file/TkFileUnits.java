@@ -1,14 +1,12 @@
-package org.tutor.sign.units;
+package org.tutor.toolkit.file;
 
 import java.io.*;
 
 /**
- * 文本文件流工具类
- *
  * @author Eugene-Forest
- * {@code @date} 2024/11/27
+ * {@code @date} 2024/12/9
  */
-public class FileUnits {
+public class TkFileUnits {
 
     public static String readTextFile(File file) throws IOException {
         StringBuilder text = new StringBuilder();
