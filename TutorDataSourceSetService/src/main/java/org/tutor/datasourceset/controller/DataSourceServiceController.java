@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.tutor.auth.anno.AesRequest;
+import org.tutor.auth.anno.EncryptRequest;
 import org.tutor.datasourceset.dto.DataSourceDto;
 import org.tutor.datasourceset.service.DataSourceService;
 import org.tutor.auth.anno.RasCheck;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("/datasource")
 @RestController
 @RasCheck
-@AesRequest
+@EncryptRequest
 public class DataSourceServiceController {
 
     @Autowired

@@ -3,7 +3,7 @@ package org.tutor.auth.entity;
 import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
-import org.tutor.auth.enums.HttpEncodingType;
+import org.tutor.auth.enums.RequestEncryptType;
 import org.tutor.auth.exception.AESException;
 import org.tutor.auth.units.AESUnits;
 
@@ -19,7 +19,7 @@ public class DecodeHttpInputMessage implements HttpInputMessage {
     private HttpHeaders headers;
     private InputStream body;
 
-    public DecodeHttpInputMessage(HttpInputMessage inputMessage, HttpEncodingType type) throws IOException {
+    public DecodeHttpInputMessage(HttpInputMessage inputMessage, RequestEncryptType type) throws IOException {
         this.headers = inputMessage.getHeaders();
         String content = IOUtils.toString(inputMessage.getBody(), StandardCharsets.UTF_8);
         try {

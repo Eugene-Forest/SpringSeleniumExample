@@ -8,10 +8,9 @@ import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
-import org.tutor.auth.anno.AesRequest;
-import org.tutor.auth.anno.RsaRequest;
+import org.tutor.auth.anno.EncryptRequest;
 import org.tutor.auth.entity.DecodeHttpInputMessage;
-import org.tutor.auth.enums.HttpEncodingType;
+import org.tutor.auth.enums.RequestEncryptType;
 import org.tutor.auth.units.AnnoUnits;
 
 import java.io.IOException;
@@ -24,7 +23,7 @@ import java.lang.reflect.Type;
  * @author Eugene-Forest
  * {@code @date} 2024/12/9
  */
-@RestControllerAdvice(annotations = AesRequest.class)
+@RestControllerAdvice(annotations = EncryptRequest.class)
 //@RestControllerAdvice(basePackages = {"org.tutor"})
 public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
 
@@ -33,7 +32,8 @@ public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
-        return AnnoUnits.ifExistAnno(methodParameter.getMethod(), AesRequest.class);
+//        return AnnoUnits.ifExistAnno(methodParameter.getMethod(), EncryptRequest.class);
+        return true;
     }
 
     @Override
@@ -45,19 +45,12 @@ public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
         boolean isDecode = false;
         Method method = parameter.getMethod();
         if (method == null) {
-            log.error("method is null");
+            log.warn("method is null");
             throw new RuntimeException("method is null");
         }
-        HttpEncodingType type = null;
-        if (method.getAnnotation(RsaRequest.class) != null) {
-            RsaRequest annotation = method.getAnnotation(RsaRequest.class);
-            isDecode = annotation.param();
-            type = HttpEncodingType.RSA;
-        } else if (method.isAnnotationPresent(AesRequest.class)) {
-            AesRequest annotation = method.getAnnotation(AesRequest.class);
-            isDecode = annotation.param();
-            type = HttpEncodingType.AES;
-        }
+        EncryptRequest encryptRequest = AnnoUnits.getAnno(method, EncryptRequest.class);
+        RequestEncryptType type = encryptRequest.encryptType();
+        isDecode = encryptRequest.decryptRequestBody();
         if (isDecode) {
             return new DecodeHttpInputMessage(inputMessage, type);
         } else {
