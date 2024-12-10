@@ -26,17 +26,12 @@
     <dependencies>
         <dependency>
             <groupId>org.tutor</groupId>
-            <artifactId>IO-Tool</artifactId>
-            <version>1.0.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.tutor</groupId>
             <artifactId>TutorDataSource</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.tutor</groupId>
-            <artifactId>Sign</artifactId>
+            <artifactId>Auth</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>

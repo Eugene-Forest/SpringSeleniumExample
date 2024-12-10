@@ -18,5 +18,5 @@ spring:
 
 logging:
   level:
-    org.tutor.sign: debug
-    org.tutor.datasourceset: debug
+    org.tutor: debug
+

@@ -15,3 +15,6 @@ http:
   socketTimeout: 10000
   #空闲永久连接检查间隔，官方推荐使用这个来检查永久链接的可用性，而不推荐每次请求的时候才去检查
   validateAfterInactivity: 2000
+logging:
+  level:
+    org.tutor: debug
