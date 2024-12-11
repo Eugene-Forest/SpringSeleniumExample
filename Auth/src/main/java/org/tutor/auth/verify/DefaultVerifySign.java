@@ -1,13 +1,10 @@
 package org.tutor.auth.verify;
 
-import org.springframework.web.method.HandlerMethod;
-import org.tutor.auth.anno.RasCheck;
 import org.tutor.auth.common.HttpRequestHelper;
 import org.tutor.auth.entity.AccountSignature;
 import org.tutor.auth.entity.SimpleSignature;
 
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.Method;
 
 /**
  * 网络请求校验类

@@ -5,9 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
-import org.tutor.auth.anno.RasCheck;
+import org.tutor.auth.anno.NoToken;
 import org.tutor.auth.units.AnnoUnits;
-import org.tutor.auth.verify.DefaultVerifySign;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -32,8 +31,8 @@ public class RequestInterceptor implements HandlerInterceptor {
         log.warn("拦截处理URL:" + request.getRequestURL().toString());
         if(handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
-            RasCheck rasCheck = AnnoUnits.getAnno(handlerMethod, RasCheck.class);
-            if(rasCheck != null){
+            NoToken noToken = AnnoUnits.getAnno(handlerMethod, NoToken.class);
+            if(noToken == null){
                 //需要签名校验
                 log.debug("签名校验[{}]请求。", handlerMethod.getMethod().getName());
             } else{

@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tutor.auth.anno.EncryptRequest;
 import org.tutor.datasourceset.dto.DataSourceDto;
 import org.tutor.datasourceset.service.DataSourceService;
-import org.tutor.auth.anno.RasCheck;
 
 import java.util.List;
 
@@ -17,7 +16,6 @@ import java.util.List;
  */
 @RequestMapping("/datasource")
 @RestController
-@RasCheck
 @EncryptRequest
 public class DataSourceServiceController {
 
