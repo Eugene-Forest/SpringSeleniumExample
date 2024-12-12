@@ -3,6 +3,7 @@ package org.tutor.auth.config;
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -11,8 +12,11 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.tutor.auth.anno.EncryptRequest;
+import org.tutor.auth.enums.RequestEncryptType;
 import org.tutor.auth.units.AnnoUnits;
 import org.tutor.auth.units.CryptoUnits;
+import org.tutor.auth.units.SignKeyUnits;
+import org.tutor.redis.RedisUtil;
 
 import java.lang.reflect.Method;
 
@@ -26,6 +30,9 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
 
     private static final Logger log = LoggerFactory.getLogger(EncodeResponseBodyAdvice.class);
 
+    @Autowired
+    private RedisUtil redisUtil;
+
     @Override
     public boolean supports(MethodParameter returnType, Class<? extends HttpMessageConverter<?>> converterType) {
 //        return AnnoUnits.ifExistAnno(returnType.getMethod(), EncryptRequest.class);
@@ -35,21 +42,31 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
         log.debug("EncodeResponseBodyAdvice beforeBodyWrite");
-        if(body == null){
+        if (body == null) {
             return null;
         }
         Method method = returnType.getMethod();
-        if(method == null) {
+        if (method == null) {
             return body;
         }
         EncryptRequest encryptRequest = AnnoUnits.getAnno(method, EncryptRequest.class);
-        if(encryptRequest == null) {
+        if (encryptRequest == null) {
             return body;
         }
-        if (!encryptRequest.encryptResult()){
+        if (!encryptRequest.encryptResult()) {
             return body;
+        }
+        RequestEncryptType type = encryptRequest.encryptType();
+        if (type == RequestEncryptType.RSA) {
+            return SignKeyUnits.defaultSignMessage(JSON.toJSONString(body));
+        } else {
+            String password = redisUtil.get("password");
+            if (password == null) {
+                return CryptoUnits.defaultEncrypt(JSON.toJSONString(body));
+            } else {
+                return CryptoUnits.encrypt(JSON.toJSONString(body), password);
+            }
         }
         // 否则进行加密
-        return CryptoUnits.defaultEncrypt(JSON.toJSONString(body));
     }
 }

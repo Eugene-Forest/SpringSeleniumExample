@@ -10,8 +10,8 @@ import org.tutor.botweb.demos.dao.DemoMysqlServiceMapper;
 import org.tutor.botweb.demos.model.DemoUser;
 import org.tutor.botweb.demos.model.Depart;
 import org.tutor.botweb.demos.service.DemoMysqlService;
-import org.tutor.common.unit.TutorRedisUtil;
 import org.tutor.common.unit.TutorTransactionManager;
+import org.tutor.redis.RedisUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,23 +31,23 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
     private DemoMysqlServiceMapper demoMysqlServiceMapper;
 
     @Autowired
-    private TutorRedisUtil tutorRedisUtil;
+    private RedisUtil tutorRedisUtil;
 
     @Autowired
     private DataSourceTransactionManager dataSourceTransactionManager;
 
     @Override
-    public Map<String,String> getDepartTable() {
+    public Map<String, String> getDepartTable() {
         String redisKey = "DepartTable";
-        if(tutorRedisUtil.hasKey(redisKey)) {
-            log.warn("Redis Key " + redisKey+ " is exist");
+        if (tutorRedisUtil.hasKey(redisKey)) {
+            log.warn("Redis Key " + redisKey + " is exist");
             return tutorRedisUtil.hGetAll(redisKey);
         }
         List<Depart> departList = demoMysqlServiceMapper.queryDepart();
         int redisDataBaseName = tutorRedisUtil.getDataBase();
 
         log.warn("Redis DataBase is " + redisDataBaseName);
-        Map<String,String> map = new HashMap<>();
+        Map<String, String> map = new HashMap<>();
 
         departList.forEach(depart -> {
             map.put(depart.getDept_no(), depart.getDept_name());
@@ -85,7 +85,7 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
             // 故意先删除再检查
             boolean status = demoMysqlServiceMapper.deleteDemoUser(userId);
 
-            if(targetDeposit != 0){
+            if (targetDeposit != 0) {
                 TutorTransactionManager.rollback(transactionStatus, dataSourceTransactionManager);
                 log.warn("账户销毁失败！ 余额：" + targetDeposit);
                 return false;
@@ -95,7 +95,7 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
                 log.warn("账户销毁成功！");
                 return status;
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             TutorTransactionManager.rollback(transactionStatus, dataSourceTransactionManager);
         }
@@ -104,7 +104,7 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
 
     @Override
     public List<DemoUser> getDemoUserTable() {
-        return  demoMysqlServiceMapper.queryDemoUser();
+        return demoMysqlServiceMapper.queryDemoUser();
     }
 
     @Override
@@ -114,7 +114,7 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
 
     @Override
     public boolean updateDemoUserDeposit(Integer userId, Integer amount) {
-        return demoMysqlServiceMapper.updateDemoUserDeposit(userId,amount);
+        return demoMysqlServiceMapper.updateDemoUserDeposit(userId, amount);
     }
 
     @Transactional
@@ -123,15 +123,15 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
         try {
             Integer myDeposit = getDemoUserDeposit(userId);
             myDeposit -= amount;
-            if(myDeposit < 0) {
+            if (myDeposit < 0) {
                 throw new Exception("余额不足");
             }
             boolean status = updateDemoUserDeposit(userId, myDeposit);
-            if(userId == 3){
+            if (userId == 3) {
                 throw new Exception("userId is 3, rollback.");
             }
             return status;
-        }catch (Exception e) {
+        } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
@@ -140,6 +140,6 @@ public class DemoMysqlServiceImpl implements DemoMysqlService {
     public boolean addMoneyToDeposit(Integer userId, Integer amount) {
         Integer myDeposit = getDemoUserDeposit(userId);
         myDeposit += amount;
-        return demoMysqlServiceMapper.updateDemoUserDeposit(userId,myDeposit);
+        return demoMysqlServiceMapper.updateDemoUserDeposit(userId, myDeposit);
     }
 }

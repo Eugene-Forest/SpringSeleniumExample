@@ -2,16 +2,19 @@ package org.tutor.auth.config;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdviceAdapter;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
 import org.tutor.auth.anno.EncryptRequest;
 import org.tutor.auth.entity.DecodeHttpInputMessage;
 import org.tutor.auth.enums.RequestEncryptType;
 import org.tutor.auth.units.AnnoUnits;
+import org.tutor.redis.RedisUtil;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
@@ -29,6 +32,8 @@ public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
 
     private static final Logger log = LoggerFactory.getLogger(DecodeRequestBodyAdvice.class);
 
+    @Autowired
+    private RedisUtil redisUtil;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -52,7 +57,17 @@ public class DecodeRequestBodyAdvice extends RequestBodyAdviceAdapter {
         RequestEncryptType type = encryptRequest.encryptType();
         isDecode = encryptRequest.decryptRequestBody();
         if (isDecode) {
-            return new DecodeHttpInputMessage(inputMessage, type);
+            if(type == RequestEncryptType.AES){
+                String password = redisUtil.get("password");
+                if(password != null) {
+                    return new DecodeHttpInputMessage(inputMessage, password);
+                }else{
+                    //TODO: throw error message
+                    throw new RuntimeException("password is null, not login");
+                }
+            } else {
+                return new DecodeHttpInputMessage(inputMessage, type);
+            }
         } else {
             return inputMessage;
         }
