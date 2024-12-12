@@ -15,6 +15,7 @@ import java.security.*;
 
 /**
  * 非对称加密算法工具类
+ *
  * @author Eugene-Forest
  * {@code @date} 2024/11/27
  */
@@ -23,18 +24,18 @@ public class SignKeyUnits {
     public static final String Key_Algorithm = "RSA";
     public static final String Sign_Algorithm = "SHA256withRSA";
 
-    private static Logger log = LoggerFactory.getLogger(SignKeyUnits.class);
+    private static final Logger log = LoggerFactory.getLogger(SignKeyUnits.class);
 
 //    RSA 算法的执行速度较慢，尤其是对于大型密钥和数据。
 //    因此，在实际应用中，通常使用 RSA 算法来加密对称密钥（如 AES），然后使用对称加密算法加密实际的数据，以提高效率。
 
-    public static SignKey createSignKey(String algorithm, int keySize) {
+    public static SignKey createSignKey() {
         try {
-            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(algorithm);
+            KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(Key_Algorithm);
             //初始化密匙长度
             // 注意，RSA 密钥长度位数必须是 512 的倍数，最小为 512，密钥长度越长，越安全（难破解），
             // 但是 密钥的生成、加密、解密都会更加的耗时。一般来说，目前最常见、安全的 RSA 密钥长度为 2048 位。
-            keyPairGenerator.initialize(keySize);
+            keyPairGenerator.initialize(1024);
             //生成密匙对
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
             //得到公匙
@@ -49,14 +50,10 @@ public class SignKeyUnits {
             signKey.setPublicKey(publicKeyString);
             return signKey;
         } catch (NoSuchAlgorithmException e) {
-            throw new IllegalArgumentException("No such algorithm: " + algorithm);
+            throw new IllegalArgumentException("No such algorithm: " + SignKeyUnits.Key_Algorithm);
         } catch (InvalidParameterException e) {
-            throw new IllegalArgumentException("Invalid key size: " + keySize + " for " + algorithm);
+            throw new IllegalArgumentException("Invalid key size: " + 1024 + " for " + SignKeyUnits.Key_Algorithm);
         }
-    }
-
-    public static SignKey createSignKeyByRSA() {
-        return createSignKey(Key_Algorithm, 1024);
     }
 
     /**
@@ -65,9 +62,20 @@ public class SignKeyUnits {
      * @param data 被签名数据
      * @return 签名
      */
-    public static String signWithRSA(String data) {
+    public static String defaultSignMessage(String data) {
+        return signMessage(data, "TestKey");
+    }
+
+    /**
+     * RSA 签名
+     *
+     * @param data    被签名数据
+     * @param keyName 密匙名
+     * @return
+     */
+    public static String signMessage(String data, String keyName) {
         try {
-            PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
+            PrivateKey privateKey = SignKeyCommon.getPrivateKey(keyName, Key_Algorithm);
             if (privateKey == null) {
                 log.warn("sign With RSA - Private key is null");
                 return null;
@@ -94,9 +102,21 @@ public class SignKeyUnits {
      * @param sign 签名
      * @return 验签结果
      */
-    public static boolean verifySignWithRSA(String data, String sign) {
+    public static boolean defaultVerifyMessage(String data, String sign) {
+        return verifyMessage(data, sign, "TestKey");
+    }
+
+    /**
+     * RSA 验签
+     *
+     * @param data    验签内容
+     * @param sign    签名
+     * @param keyName 密匙名
+     * @return 验签结果
+     */
+    public static boolean verifyMessage(String data, String sign, String keyName) {
         try {
-            PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
+            PublicKey publicKey = SignKeyCommon.getPublicKey(keyName, Key_Algorithm);
             if (publicKey == null) {
                 log.warn("verify Sign With RSA - Public key is null");
                 return false;
@@ -122,9 +142,19 @@ public class SignKeyUnits {
      * @param data 明文；数据
      * @return 密文；加密数据（Base64编码）
      */
-    public static String encryptWithRSA(String data) {
+    public static String defaultEncryptMessage(String data) {
+        return encryptMessage(data, "TestKey");
+    }
+
+    /**
+     * RSA 公匙加密
+     * @param data 明文；数据
+     * @param keyName 密匙名
+     * @return 密文；加密数据（Base64编码）
+     */
+    public static String encryptMessage(String data, String keyName) {
         try {
-            PublicKey publicKey = SignKeyCommon.getPublicKey("TestKey", Key_Algorithm);
+            PublicKey publicKey = SignKeyCommon.getPublicKey(keyName, Key_Algorithm);
             if (publicKey == null) {
                 log.warn("encrypt With RSA - Public key is null");
                 return null;
@@ -149,9 +179,19 @@ public class SignKeyUnits {
      * @param encryptedData 加密数据(Base64编码)
      * @return 解密数据
      */
-    public static String decryptWithRSA(String encryptedData) {
+    public static String defaultDecryptMessage(String encryptedData) {
+        return decryptMessage(encryptedData, "TestKey");
+    }
+
+    /**
+     *  RSA 私匙解密
+     * @param encryptedData 加密数据(Base64编码)
+     * @param keyName 密匙名
+     * @return 解密数据
+     */
+    public static String decryptMessage(String encryptedData, String keyName) {
         try {
-            PrivateKey privateKey = SignKeyCommon.getPrivateKey("TestKey", Key_Algorithm);
+            PrivateKey privateKey = SignKeyCommon.getPrivateKey(keyName, Key_Algorithm);
             if (privateKey == null) {
                 log.warn("decrypt With RSA - Private key is null");
                 return null;

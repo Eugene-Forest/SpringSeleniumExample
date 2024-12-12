@@ -1,5 +1,5 @@
 import org.tutor.auth.common.SignKeyCommon;
-import org.tutor.auth.units.AESUnits;
+import org.tutor.auth.units.CryptoUnits;
 import org.tutor.auth.units.SignKeyUnits;
 
 /**
@@ -10,9 +10,9 @@ import org.tutor.auth.units.SignKeyUnits;
 public class TestSignKeyMain {
     public static void main(String[] args) {
 //        createTestKey();
-        simpleSign();
+//        simpleSign();
 //        encryptData();
-//        encryptDataAES();
+        encryptDataAES();
         encryptDataAESWithPassword();
     }
 
@@ -30,11 +30,11 @@ public class TestSignKeyMain {
         //数据
         String data = "hello world";
         //签名
-        String sign = SignKeyUnits.signWithRSA(data);
+        String sign = SignKeyUnits.defaultSignMessage(data);
         System.out.println("签名数据："+ sign);
         //然后根据公匙进行数据的验签
-        System.out.println(SignKeyUnits.verifySignWithRSA("hello world!", sign));//false
-        System.out.println(SignKeyUnits.verifySignWithRSA("hello world", sign));//true
+        System.out.println(SignKeyUnits.defaultVerifyMessage("hello world!", sign));//false
+        System.out.println(SignKeyUnits.defaultVerifyMessage("hello world", sign));//true
 
         // 思考：
         // 通过用例可以知道，签名和验签的机制可以保证数据的准确
@@ -44,32 +44,41 @@ public class TestSignKeyMain {
 
     public static void encryptData(){
         String data = "hello world";
-        String encryptedData = SignKeyUnits.encryptWithRSA(data);
+        String encryptedData = SignKeyUnits.defaultEncryptMessage(data);
         System.out.println("加密后数据: " + encryptedData);
-        String message = SignKeyUnits.decryptWithRSA(encryptedData);
+        String message = SignKeyUnits.defaultDecryptMessage(encryptedData);
         System.out.println("解密后数据: " + message);
         System.out.println(data.equals(message));
     }
 
     public static void encryptDataAES(){
         String data = "hello world";
-        String key_AES = AESUnits.generateKey(128);
+        String key_AES = CryptoUnits.generateByteKey();
         assert key_AES != null;
         System.out.println("key: " + key_AES + " , " + key_AES.length() + " " + key_AES.getBytes().length);
-        String deData = AESUnits.encryptWithByteKey(data, key_AES);
+        String deData = CryptoUnits.encryptWithByteKey(data, key_AES);
         System.out.println("加密数据: " + deData);
-        String message = AESUnits.decryptWithByteKey(deData, key_AES);
+        String message = CryptoUnits.decryptWithByteKey(deData, key_AES);
         System.out.println("解密数据: " + message);
     }
 
     public static void encryptDataAESWithPassword(){
         try {
             String data = "hello world";
-            String deData = AESUnits.encryptAES(data);
-            String message = AESUnits.decryptAES(deData);
-            System.out.println(message);
+//            String deData = AESUnits.encryptAES(data);
+//            String message = AESUnits.decryptAES(deData);
+//            System.out.println(message);
+            String password = CryptoUnits.generatePassword();
+            assert password != null;
+            System.out.println("password: " + password);
+            String encodeMessage = CryptoUnits.encrypt(data, password);
+            System.out.println("加密数据 : " + encodeMessage);
+            String deCodeMessage = CryptoUnits.decrypt(encodeMessage, password);
+            System.out.println("解密数据：" + deCodeMessage);
         }catch (Exception e){
             e.printStackTrace();
         }
     }
+
+
 }

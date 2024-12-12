@@ -11,9 +11,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import org.tutor.auth.anno.EncryptRequest;
-import org.tutor.auth.exception.AESException;
-import org.tutor.auth.units.AESUnits;
 import org.tutor.auth.units.AnnoUnits;
+import org.tutor.auth.units.CryptoUnits;
 
 import java.lang.reflect.Method;
 
@@ -51,10 +50,6 @@ public class EncodeResponseBodyAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         // 否则进行加密
-        try {
-            return AESUnits.encryptAES(JSON.toJSONString(body));
-        } catch (AESException e) {
-            throw new RuntimeException(e);
-        }
+        return CryptoUnits.defaultEncrypt(JSON.toJSONString(body));
     }
 }

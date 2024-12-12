@@ -4,8 +4,7 @@ import org.apache.commons.io.IOUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.tutor.auth.enums.RequestEncryptType;
-import org.tutor.auth.exception.AESException;
-import org.tutor.auth.units.AESUnits;
+import org.tutor.auth.units.CryptoUnits;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,16 +21,11 @@ public class DecodeHttpInputMessage implements HttpInputMessage {
     public DecodeHttpInputMessage(HttpInputMessage inputMessage, RequestEncryptType type) throws IOException {
         this.headers = inputMessage.getHeaders();
         String content = IOUtils.toString(inputMessage.getBody(), StandardCharsets.UTF_8);
-        try {
-            //TODO: for type
-            this.body = IOUtils.toInputStream(AESUnits.decryptAES(content));
-        } catch (AESException e) {
-            throw new RuntimeException(e);
-        }
+        this.body = IOUtils.toInputStream(CryptoUnits.defaultDecrypt(content));
     }
 
     @Override
-    public InputStream getBody() throws IOException {
+    public InputStream getBody() {
         return body;
     }
 

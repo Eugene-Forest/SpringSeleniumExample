@@ -2,7 +2,7 @@ package org.tutor.demo.client.service.impl;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.tutor.auth.units.AESUnits;
+import org.tutor.auth.units.CryptoUnits;
 import org.tutor.demo.client.entity.SimpleHttpProxyDto;
 import org.tutor.demo.client.entity.WebResult;
 import org.tutor.demo.client.service.ClientDemoService;
@@ -24,7 +24,7 @@ public class ClientDemoServiceImpl implements ClientDemoService {
                 String res = HttpClientUtils.get(dto.getUrl());
                 log.info("请求原文：");
                 log.info(res);
-                String result = AESUnits.decryptAES(res);
+                String result = CryptoUnits.defaultDecrypt(res);
                 log.info("解密：");
                 log.info(result);
                 return WebResult.success(result);

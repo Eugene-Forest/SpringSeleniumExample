@@ -24,11 +24,11 @@ import java.security.spec.X509EncodedKeySpec;
 public class SignKeyCommon {
     private static final String KeyFileBase = "static/";
     private static final String KeyFileRSA = KeyFileBase + "rsa/";
-    private static final String KeyFileDSA = KeyFileBase + "dsa/";
+//    private static final String KeyFileDSA = KeyFileBase + "dsa/";
 
-    private static Logger log = LoggerFactory.getLogger(SignKeyCommon.class);
+    private static final Logger log = LoggerFactory.getLogger(SignKeyCommon.class);
 
-    public static boolean createSignKey(String name) {
+    public static void createSignKey(String name) {
         try {
             String privateKeyFilePath = getPrivateKeyFileSavePath(name);
             File privateKeyFile = new File(privateKeyFilePath);
@@ -36,7 +36,7 @@ public class SignKeyCommon {
                 log.warn("Private key file created");
             } else if (privateKeyFile.exists()) {
                 log.warn("Private key file already exists");
-                return false;
+                return;
             }
             String publicKeyFilePath = getPublicKeyFileSavePath(name);
             File publicKeyFile = new File(publicKeyFilePath);
@@ -44,16 +44,14 @@ public class SignKeyCommon {
                 log.warn("Public key file created");
             } else if (publicKeyFile.exists()) {
                 log.warn("Public key file already exists");
-                return false;
+                return;
             }
-            SignKey signKey = SignKeyUnits.createSignKeyByRSA();
+            SignKey signKey = SignKeyUnits.createSignKey();
             FileHelper.writeTextFile(privateKeyFile, signKey.getPrivateKey());
             FileHelper.writeTextFile(publicKeyFile, signKey.getPublicKey());
-            return true;
         } catch (IOException e) {
             e.printStackTrace();
             log.error(e.getMessage());
-            return false;
         }
     }
 
@@ -67,7 +65,8 @@ public class SignKeyCommon {
 
     /**
      * 获取私匙对象
-     * @param name 私匙文件名
+     *
+     * @param name      私匙文件名
      * @param algorithm 加密算法
      * @return 私匙对象
      */
@@ -102,7 +101,8 @@ public class SignKeyCommon {
 
     /**
      * 获取公匙对象
-     * @param name 公匙文件名
+     *
+     * @param name      公匙文件名
      * @param algorithm 加密算法
      * @return 公匙对象
      */
