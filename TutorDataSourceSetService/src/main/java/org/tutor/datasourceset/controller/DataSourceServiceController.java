@@ -1,10 +1,13 @@
 package org.tutor.datasourceset.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.tutor.auth.anno.EncryptRequest;
+import org.tutor.auth.entity.WebResult;
+import org.tutor.auth.enums.RequestEncryptType;
+import org.tutor.auth.units.CryptoUnits;
+import org.tutor.auth.units.SignKeyUnits;
+import org.tutor.datasourceset.dto.Account;
 import org.tutor.datasourceset.dto.DataSourceDto;
 import org.tutor.datasourceset.service.DataSourceService;
 
@@ -21,6 +24,24 @@ public class DataSourceServiceController {
 
     @Autowired
     private DataSourceService dataSourceService;
+
+    @EncryptRequest(encryptType = RequestEncryptType.RSA)
+    @PostMapping("/login")
+    public WebResult<String> login(@RequestBody Account account) {
+        if(account.getPassword() == null || account.getPassword().isEmpty()) {
+            return WebResult.error();
+        }
+        if(account.getName() == null || account.getName().isEmpty()) {
+            return WebResult.error();
+        }
+        if(account.getPassword().equals("admin") && account.getName().equals("admin")) {
+            String password = CryptoUnits.generatePassword();
+            //how to Save password
+            String enCodePassword = SignKeyUnits.defaultEncryptMessage(password);
+            return WebResult.success(enCodePassword);
+        }
+        return WebResult.error();
+    }
 
     @GetMapping("/getDataSourceSets")
     public List<DataSourceDto> getDataSourceSets(){

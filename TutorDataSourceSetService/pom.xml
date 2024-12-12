@@ -87,7 +87,12 @@
         </dependency>
         <dependency>
             <groupId>org.tutor</groupId>
-            <artifactId>Auth</artifactId>
+            <artifactId>AuthMod</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.tutor</groupId>
+            <artifactId>RedisMod</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>

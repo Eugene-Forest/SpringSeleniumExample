@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>org.tutor</groupId>
-            <artifactId>BotCommon</artifactId>
+            <artifactId>CommonMod</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
